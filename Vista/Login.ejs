@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login || Agro</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
+    
+
+  </head>
+  <body background="img/fondo.webp">
+    <div class="container offset-5-center">
+      <div class="row">
+        <div class="col-5 offset-5-center">
+          <br />
+          <br />
+          <div class="text-center">
+            <img class="img-fluid" src="img/logo.webp" alt="" />
+          </div>
+          <form action="/Logine" method="post" autocomplete="off">
+            <div class="form-group">
+              <label for="usuario"> Usuario corporativo : </label>
+              <input
+                type="text"
+                name="Usuario"
+                id="idusuario"
+                class="form-control"
+                placeholder="example.agroidea.com.co"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="password"> Clave:</label>
+              <input
+                type="password"
+                name="Clave"
+                id="idpassword"
+                class="form-control"
+                placeholder="*******"
+                required
+              />
+            </div>
+            <div class="form-group text-center">
+              <button class="btn btn-success">Acceder</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<% if(typeof alert !="undefined"){ %>
+<script>
+  Swal.fire({
+    title:'<%=alertTitle  %>',
+    text:'<%=alertMessage  %>',
+    icon:'<%=alertIcon  %>',
+    showConfirmButton:'<%=showConfirmButton  %>',
+    timer:'<%=timer  %>',
+  }).then(()=>{
+    window.location='<%=ruta  %>'
+  })
+</script>
+  <% } %>
+  </body>
+</html>
