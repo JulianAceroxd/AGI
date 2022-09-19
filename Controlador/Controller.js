@@ -10,6 +10,13 @@ Controller.index = (req, res, next) => {
   res.render("Login"); //aca creamas nuestro controlador index o raiz, es la primera vista que tendremos al iniciar
   res.send("ERROR DE CONTROLADOR");
 };
+
+Controller.cuatro = (req, res) => {
+ res.render('404')
+
+};
+
+
 Controller.admin = (req, res, next) => {
     if(req.session.Login){
     res.render("admin",{
@@ -41,7 +48,7 @@ Controller.Logine = async (req, res, next) => {
     async (err, results) => {
       //CONSULTAMOS LOS DATOS EN LA BASE DE DATOS Y REEMPLAZAMOS VALORES CON LOS QUE DILIGENCIA EL USUARIO
       if (err) {
-        next(new Error("ERROR AL REALIZAR LA CONSULTA", err)); //VALIDAMOS SI EXITEN ERRORES
+        next(new Error(res.redirect('/'),console.log("ERROR AL REALIZAR LA CONSULTA"), err)); //VALIDAMOS SI EXITEN ERRORES
       } else if (results != 0 && (await (cla, results[0].Clave))) {
         // SI EL RESULTADO ES DIFERENTE DE 0 ES QUE ENCONTRO EL USUARIO,POR MEDIO DE UN ARREGLO Y COMPARE, COMPARAMOS LO DILIGENCIADO POR EL USUARIO Y LO REGISTRADO EN LA BD                           console.log("Datos Correctossssssss");
 

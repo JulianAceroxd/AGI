@@ -9,6 +9,7 @@ Rutas.get('/cerrar',Controller.cerrar);
 
 Rutas.post('/Logine',Controller.Logine); 
 
+Rutas.get('*',Controller.cuatro); 
 
 
 module.exports=Rutas;

@@ -1,9 +1,9 @@
 const mysql =require('mysql');  //ACA LLAMAMOS LA FUNCION O LIBRERIA NECESARIA PAR UTILIZAR NUESTRA BD UBICADA EN MYSQL
 module.exports=()=> //ACA EXPORTAMOS PARA PODER UTILIZAR MAS ADELANTE
 mysql.createConnection({
-host:'localhost',
-user:'root',   //PRINCIPALMENTE SE CREA LA CONEXION UTILIZANDO EL MODULO, Y EL HOST,USER,PASSWORD.NOMBRE DE LA BASE DE DATOS
-password:'',
-database:'spgagi',
-port:""
+host:'172.28.38.8',
+user:'agidb',   //PRINCIPALMENTE SE CREA LA CONEXION UTILIZANDO EL MODULO, Y EL HOST,USER,PASSWORD.NOMBRE DE LA BASE DE DATOS
+password:'Fr1017Pt*++',
+database:'AGI',
+port:"3306"
 });
