@@ -18,29 +18,29 @@
 
               <hr class="w-100">
 
-              <form>
+              <form action="/RVariedad" enctype="multipart/form-data" method="post">
                 <div class="form-group row">
                   <label for="inputEmail3" class="col-sm-2 col-form-label">Variedad</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputEmail3" placeholder="Nombre">
+                    <input type="text" class="form-control" id="inputEmail3" name="Nombre" placeholder="Nombre" required>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="inputPassword3" class="col-sm-2 col-form-label">Catalogo </label>
                   <div class="col-sm-10">
-                    <input type="file" class="form-control" id="inputPassword3" placeholder="Apellido">
+                    <input type="file" class="form-control"  accept="application/pdf" name="file1" id="inputPassword3"  placeholder="Apellido" required>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="inputPassword3" class="col-sm-2 col-form-label">Catalogo In Vitro</label>
                   <div class="col-sm-10">
-                    <input type="file" class="form-control" id="inputPassword3" placeholder="Apellido">
+                    <input type="file" class="form-control" accept="application/pdf" name="file2" id="inputPassword3" placeholder="Apellido" required>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="inputPassword3" class="col-sm-2 col-form-label">Catalogo In Vivo</label>
                   <div class="col-sm-10">
-                    <input type="file" class="form-control" id="inputPassword3" placeholder="Apellido">
+                    <input type="file" class="form-control" accept="application/pdf" name="file3" id="inputPassword3" placeholder="Apellido" required>
                   </div>
                 </div>
                 <div class="form-group row">
@@ -57,22 +57,27 @@
           <div class="container table-responsive py-5">
             <table class="table table-bordered table-hover">
               <thead class="thead-dark">
+              
                 <tr>
+                  
                   <th scope="col">Nombre</th>
-                  <th scope="col">Apellido</th>
-                  <th scope="col">Documento</th>
-                  <th scope="col-2">Acciones</th>
-                  <th scope="col-2">Acciones</th>
+                  <th scope="col-2">Catalogo</th>
+                  <th scope="col-2">In vivo</th>
+                  <th scope="col-2">In Vitro</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Carlos</td>
-                  <td>Rubio</td>
-                  <td>87595324</td>
-                  <td><a href="">Ventas</a></td>
-                  <td><a href="">Actualizar</a></td>
+                  <% Datos.forEach(function (Datos){ %>
+                  <td><%=Datos.Nombre%></td>
+                  <td><a href="/Catalogos/<%=Datos.Catalogo%>" download><i class="icon ion-md-eye" ></i>
+                  </a></td>
+                  <td><a href="/Catalogos/<%=Datos.Invivo%>" download><i class="icon ion-md-eye"></i>
+                  </a></td>
+                  <td><a href="/Catalogos/<%=Datos.Invitro%>" download><i class="icon ion-md-eye"></i>
+                    </a></td>
                 </tr>
+                <%})%>
               </tbody>
             </table>
 
@@ -82,6 +87,20 @@
     </div>
     </div>
     </div>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<% if(typeof alert !="undefined"){ %>
+<script>
+  Swal.fire({
+    title:'<%=alertTitle  %>',
+    text:'<%=alertMessage  %>',
+    icon:'<%=alertIcon  %>',
+    showConfirmButton:'<%=showConfirmButton  %>',
+    timer:'<%=timer  %>',
+  }).then(()=>{
+    window.location='<%=ruta  %>'
+  })
+</script>
+  <% } %>
 </body>
 
 </html>

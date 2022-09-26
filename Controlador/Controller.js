@@ -12,16 +12,14 @@ Controller.index = (req, res, next) => {
 };
 
 Controller.cuatro = (req, res) => {
-  res.render('404')
-
+  res.render("404");
 };
-
 
 Controller.admin = (req, res, next) => {
   if (req.session.Login) {
     res.render("admin", {
       login: true,
-      name: req.session.nombre
+      name: req.session.nombre,
     });
   } else {
     res.render("Login", {
@@ -31,26 +29,32 @@ Controller.admin = (req, res, next) => {
       alertIcon: "error",
       showConfirmButton: true,
       timer: 2000,
-      ruta: '/'
+      ruta: "/",
     }); //NOS RE
-
   }
 };
 Controller.clientes = (req, res, next) => {
-
   res.render("Clientes", {
     login: true,
-    name: req.session.nombre
+    name: req.session.nombre,
   });
-
 };
 Controller.Variedades = (req, res, next) => {
-
-  res.render("Variedades", {
-    login: true,
-    name: req.session.nombre
+  cnn.query("SELECT * FROM Tbvariedades", (err, resbd) => {
+    //cnn que contiene la conexion a base de datos nos genera la consulta con un err que seria error o un resbd que seria una respuesta
+    if (err) {
+      //VALIDAMOS EL VALOR RECIBIDO SEA ERROR O NO
+      next(new Error(err));
+      console.log("ERROR EN LA CONSULTA");
+    } else {
+      console.log(resbd); // EN CASO QUE RETORNE RESPUESTA LA VARIABLE DATOS, CONTENDRA LO QUE NOS TRAE DE DESPUESTA
+      res.render("Variedades", {
+        login: true,
+        name: req.session.nombre,
+        Datos: resbd,
+      });
+    }
   });
-
 };
 
 Controller.Logine = async (req, res, next) => {
@@ -59,13 +63,19 @@ Controller.Logine = async (req, res, next) => {
   const cla = await req.body.Clave;
   console.log(usu, cla);
   cnn.query(
-    "SELECT * FROM TbUsuarios WHERE Usuario=?",
+    "SELECT * FROM tbusuarios WHERE Usuario=?",
     [usu],
     async (err, results) => {
       //CONSULTAMOS LOS DATOS EN LA BASE DE DATOS Y REEMPLAZAMOS VALORES CON LOS QUE DILIGENCIA EL USUARIO
       if (err) {
-        next(new Error(res.redirect('/'), console.log("ERROR AL REALIZAR LA CONSULTA"), err)); //VALIDAMOS SI EXITEN ERRORES
-      } else if (results != 0 && (await (cla, results[0].Password))) {
+        next(
+          new Error(
+            res.redirect("/"),
+            console.log("ERROR AL REALIZAR LA CONSULTA"),
+            err
+          )
+        ); //VALIDAMOS SI EXITEN ERRORES
+      } else if (results != 0 && (await (cla, results[0].Clave))) {
         // SI EL RESULTADO ES DIFERENTE DE 0 ES QUE ENCONTRO EL USUARIO,POR MEDIO DE UN ARREGLO Y COMPARE, COMPARAMOS LO DILIGENCIADO POR EL USUARIO Y LO REGISTRADO EN LA BD                           console.log("Datos Correctossssssss");
 
         //CREAMOS SESIONES POR MEDIO DE UN ARREGLO, QUE NOS RETORNA LOS DATOS DE EL USUARIO LOGEADO
@@ -79,14 +89,14 @@ Controller.Logine = async (req, res, next) => {
         switch (Rol) {
           case 1:
             req.session.nombre = Nombre;
-            res.render('Login', {
+            res.render("Login", {
               alert: true,
               alertTitle: "Conexion Exitosa",
               alertMessage: "Bienvenido " + req.session.nombre,
               alertIcon: "success",
               showConfirmButton: true,
               timer: 2500,
-              ruta: 'Admin'
+              ruta: "Admin",
             });
             break;
           case "2":
@@ -104,22 +114,59 @@ Controller.Logine = async (req, res, next) => {
           alertIcon: "error",
           showConfirmButton: true,
           timer: 2000,
-          ruta: '/'
+          ruta: "/",
         }); //NOS REDIRIGE AL MISMO ARCHIVO
       }
     }
   );
 };
 
+Controller.RVariedad = (req, res, next) => {
+  const nom = req.body.Nombre; // TRAEMOS LOS NAME DE EL LOGIN PARA VALIDAR LOS CAMPOS
+  const cata = req.files.file1[0].filename;
+  const invivo = req.files.file2[0].filename;
+  const invitro = req.files.file3[0].filename;
+  console.log(cata);
+  cnn.query(
+    "CALL InsertVariedad(?,?,?,?)",
+    [nom, cata, invivo, invitro],
+    (err, resbd) => {
+      //cnn que contiene la conexion a base de datos nos genera la consulta con un err que seria error o un resbd que seria una respuesta
+      if (err) {
+        //VALIDAMOS EL VALOR RECIBIDO SEA ERROR O NO
+        next(new Error(err));
+        console.log("ERROR EN LA CONSULTA");
+        res.render("Variedades", {
+          alert: true,
+          alertTitle: "Error",
+          alertMessage: "La Variedad No Se Registro",
+          alertIcon: "error",
+          showConfirmButton: true,
+          timer: 2000,
+          ruta: "Variedades",
+        });
+      } else {
+        console.log(resbd); // EN CASO QUE RETORNE RESPUESTA LA VARIABLE DATOS, CONTENDRA LO QUE NOS TRAE DE DESPUESTA
+        res.render("Variedades", {
+          login: true,
+          name: req.session.nombre,
+          alert: true,
+          alertTitle: "Registro Correcto",
+          alertMessage: "Se Registro La Variedad " + nom,
+          alertIcon: "success",
+          showConfirmButton: true,
+          timer: 2500,
+          ruta: "/Variedades",
+        });
+      }
+    }
+  );
+};
 
 Controller.cerrar = (req, res, next) => {
   req.session.destroy(() => {
-    res.redirect('/')
-  })
+    res.redirect("/");
+  });
 };
-
-
-
-
 
 module.exports = Controller;

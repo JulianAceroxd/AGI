@@ -39,6 +39,13 @@ crossorigin="anonymous"></script>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
+                  <% if(name=undefined){  %>
+<script>
+window.location('/')
+</script>
+                 
+                  
+                  <% } %>
                   <%= name %>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">

@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname,'Public')));
 app.set('view engine', 'ejs');
 app.set('views',path.join(__dirname,'Vista'));
  const storage= multer.diskStorage({
-     destination:path.join(__dirname, 'Public/imagenes'),
+     destination:path.join(__dirname, 'Public/Catalogos'),
 filename: (req, file , cb)=>{
   
 cb(null,Date.now()+"." + mimeTypes.extension(file.mimetype))
@@ -32,8 +32,8 @@ cb(null,Date.now()+"." + mimeTypes.extension(file.mimetype))
 });
 app.use(multer({
    storage,
-    dest: path.join(__dirname,'Public/imagenes')
-}).single('img'))
+    dest: path.join(__dirname,'Public/Catalogos')
+}).fields([{name:"file1"},{name: "file2"},{name: "file3"}]))
 app.use(express.urlencoded({extended:true}));
 app.use(require('./Rutas/Rutas'));
 app.use((err,req,res,next)=>{
